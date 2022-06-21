@@ -5,7 +5,6 @@ import mongoose from 'mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CatsModule } from './cats/cats.module';
-
 import { Cat } from './cats/entity/cats.entity';
 import { LoggerMiddleware } from './logger.middleware';
 
@@ -13,10 +12,8 @@ import { LoggerMiddleware } from './logger.middleware';
   imports: [
     ConfigModule.forRoot(),
     MongooseModule.forRoot(process.env.MONGODB_URI,{
-      useNewUrlParser:true,
-      useUnifiedTopology:true,
-      useCreateIndex:true,
-      useFindAndModify:false
+      useNewUrlParser: true,
+      useUnifiedTopology: true
     }),
     CatsModule
   ],
