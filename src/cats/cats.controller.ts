@@ -1,33 +1,56 @@
-import { Controller, Delete, Get, HttpException, Param, ParseIntPipe, Patch, Post, Put, UseFilters } from '@nestjs/common';
-import { HttpExceptionFilter } from 'src/http-exception.filter';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
+import { ApiOperation } from '@nestjs/swagger';
+import { AuthService } from 'src/auth/auth.service';
+import { LoginRequestDto } from 'src/auth/dto/login.request';
+import { JwtAuthGuard } from 'src/auth/jwt/jwt.guard';
 import { CatsService } from './cats.service';
+import { CatRequestDto } from './dto/cats.request.dto';
 
 @Controller('cats')
 export class CatsController {
-    constructor(private readonly catService: CatsService) {}
+  constructor(private readonly catsService: CatsService,
+              private readonly authService: AuthService) {}
 
-    @Get()
-    getCurrentCat(){
-        return 'current cat';
-    }
-   
-    @Post()
-    async signUp(){
-        return 'singnup';
-    }
+  @ApiOperation({summary:'현재 고양이 가져오기'})            
+  @UseGuards(JwtAuthGuard)
+  @Get()
+  getCurrentCat(@Req() req) {
+    return 'current cat';
+  }
 
-    @Post('login')
-    logIn(){
-        return 'login';
-    }
+  
+  @Get('email/:email')
+  getexistByEmail(@Param('email')email: string) {
+    return this.catsService.existByEmail(email);
+  }
 
-    @Post('logout')
-    logOut(){
-        return 'logout';
-    }
+  @Post()
+  async signUp(@Body() catRequestDto: CatRequestDto) {
+    return await this.catsService.signUp(catRequestDto);
+  }
 
-    @Post('upload/cats')
-    uploadCatImg(){
-        return 'uploadImg';
-    }
+  @ApiOperation({summary: '로그인'})
+  @Post('login')
+  logIn(@Body() data:LoginRequestDto) {
+    return this.authService.jwtLogIn(data);
+  }
+
+  @Post('logout')
+  logOut() {
+    return 'logout';
+  }
+
+  @Post('upload/cats')
+  uploadCatImg() {
+    return 'uploadImg';
+  }
 }

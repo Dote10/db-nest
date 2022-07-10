@@ -2,9 +2,9 @@
   "ExpandedNodes": [
     "",
     "\\src",
-    "\\src\\cats",
-    "\\src\\cats\\entity"
+    "\\src\\auth",
+    "\\src\\auth\\jwt"
   ],
-  "SelectedNode": "\\src\\cats\\entity\\cats.entity.ts",
+  "SelectedNode": "\\src\\auth\\auth.module.ts",
   "PreviewInSolutionExplorer": false
 }
