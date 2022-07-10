@@ -17,19 +17,20 @@ import { CatRequestDto } from './dto/cats.request.dto';
 
 @Controller('cats')
 export class CatsController {
-  constructor(private readonly catsService: CatsService,
-              private readonly authService: AuthService) {}
+  constructor(
+    private readonly catsService: CatsService,
+    private readonly authService: AuthService,
+  ) {}
 
-  @ApiOperation({summary:'현재 고양이 가져오기'})            
+  @ApiOperation({ summary: '현재 고양이 가져오기' })
   @UseGuards(JwtAuthGuard)
   @Get()
   getCurrentCat(@Req() req) {
     return 'current cat';
   }
 
-  
   @Get('email/:email')
-  getexistByEmail(@Param('email')email: string) {
+  getexistByEmail(@Param('email') email: string) {
     return this.catsService.existByEmail(email);
   }
 
@@ -38,9 +39,9 @@ export class CatsController {
     return await this.catsService.signUp(catRequestDto);
   }
 
-  @ApiOperation({summary: '로그인'})
+  @ApiOperation({ summary: '로그인' })
   @Post('login')
-  logIn(@Body() data:LoginRequestDto) {
+  logIn(@Body() data: LoginRequestDto) {
     return this.authService.jwtLogIn(data);
   }
 

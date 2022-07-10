@@ -7,11 +7,12 @@ import { AuthModule } from 'src/auth/auth.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CatSchema } from './cats.schema';
 @Module({
-  imports: [MongooseModule.forFeature([{ name: Cat.name, schema: CatSchema }]),
-           forwardRef(()=> AuthModule)],
-  exports: [CatsService,CatRepository],
+  imports: [
+    MongooseModule.forFeature([{ name: Cat.name, schema: CatSchema }]),
+    forwardRef(() => AuthModule),
+  ],
+  exports: [CatsService, CatRepository],
   controllers: [CatsController],
-  providers: [CatsService,CatRepository],
+  providers: [CatsService, CatRepository],
 })
 export class CatsModule {}
-

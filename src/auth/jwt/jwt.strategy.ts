@@ -1,4 +1,3 @@
-
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
@@ -15,17 +14,14 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload) {
-
     const cat = await this.catsRepository.findCatbyIdWithoutPassword(
-      payload.sub
+      payload.sub,
     );
 
-    if(cat){
+    if (cat) {
       return cat;
-    }else{
+    } else {
       throw new UnauthorizedException();
     }
-
   }
 }
-

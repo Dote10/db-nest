@@ -1,19 +1,16 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
-
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
-export class Cat{
-    @PrimaryGeneratedColumn()
-    id: number;
+export class Cat {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column()
-    name: string;
+  @Column()
+  name: string;
 
-    @Column()
-    age: number;
+  @Column()
+  age: number;
 
-    @Column()
-    breed: string;
-
+  @Column()
+  breed: string;
 }
-

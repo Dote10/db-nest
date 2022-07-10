@@ -18,11 +18,11 @@ import { AuthService } from 'src/auth/auth.service';
 @Injectable()
 export class CatsService {
   constructor(
-    @InjectModel(Cat.name) 
+    @InjectModel(Cat.name)
     private readonly catModel: Model<Cat>,
     private readonly catRepository: CatRepository,
-    private readonly authService: AuthService
-    ) {}
+    private readonly authService: AuthService,
+  ) {}
 
   async signUp(catRequestDto: CatRequestDto) {
     const { email, name, password } = catRequestDto;
@@ -44,8 +44,7 @@ export class CatsService {
     return cat;
   }
 
- async existByEmail(email: string) {
-  return await this.catRepository.existByEmail(email);
- }
-
+  async existByEmail(email: string) {
+    return await this.catRepository.existByEmail(email);
+  }
 }
