@@ -8,16 +8,16 @@ import { Model } from 'mongoose';
 import { HttpExceptionFilter } from '../http-exception.filter';
 import * as bcrypt from 'bcrypt';
 import { catchError } from 'rxjs';
+import { CatsRepository } from './cats.repository';
 
 @Injectable()
 export class CatsService {
-    constructor( @InjectModel(Cat.name) private readonly catModel: Model<Cat>){}
-
+    constructor( private readonly catsRepository: CatsRepository){}
 
 
     async signUp(catRequestDto: CatRequestDto){
         const {email, name, password} =  catRequestDto;
-        const isCatExist = await this.catModel.exists({email});
+        const isCatExist = await this.catsRepository.existsByEmail(email);
     
 
         if (isCatExist){
@@ -27,7 +27,7 @@ export class CatsService {
 
         const hashedPassword = await bcrypt.hash(password,10);
 
-        const cat = await this.catModel.create({
+        const cat = await this.catsRepository.create({
             email,
             name,
             password:hashedPassword
