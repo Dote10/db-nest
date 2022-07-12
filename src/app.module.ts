@@ -6,8 +6,6 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { CatsModule } from './cats/cats.module';
-
-import { Cat } from './cats/entity/cats.entity';
 import { LoggerMiddleware } from './logger.middleware';
 
 @Module({
@@ -16,6 +14,7 @@ import { LoggerMiddleware } from './logger.middleware';
     MongooseModule.forRoot(process.env.MONGODB_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
+      autoIndex: true
     }),
     CatsModule,
     AuthModule,

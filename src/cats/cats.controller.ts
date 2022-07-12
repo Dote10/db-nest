@@ -14,6 +14,7 @@ import { LoginRequestDto } from 'src/auth/dto/login.request';
 import { JwtAuthGuard } from 'src/auth/jwt/jwt.guard';
 import { CatsService } from './cats.service';
 import { CatRequestDto } from './dto/cats.request.dto';
+import { HttpException } from '@nestjs/common';
 
 @Controller('cats')
 export class CatsController {
@@ -22,19 +23,25 @@ export class CatsController {
     private readonly authService: AuthService,
   ) {}
 
+
+  @Get()
+  async findAll(){
+     throw new HttpException('api is broken',401)
+  }
+
   @ApiOperation({ summary: '현재 고양이 가져오기' })
   @UseGuards(JwtAuthGuard)
-  @Get()
+  @Get('current')
   getCurrentCat(@Req() req) {
     return 'current cat';
   }
 
   @Get('email/:email')
-  getexistByEmail(@Param('email') email: string) {
+  getExistByEmail(@Param('email') email: string) {
     return this.catsService.existByEmail(email);
   }
 
-  @Post()
+  @Post('sing')
   async signUp(@Body() catRequestDto: CatRequestDto) {
     return await this.catsService.signUp(catRequestDto);
   }

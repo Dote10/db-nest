@@ -1,5 +1,6 @@
-import { Prop, Schema, SchemaOptions, SchemaFactory } from '@nestjs/mongoose';
+import { Prop, Schema, SchemaFactory, SchemaOptions } from '@nestjs/mongoose';
 import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { Document, PromiseProvider } from 'mongoose';
 
 const options: SchemaOptions = {
   timestamps: true,
@@ -7,17 +8,6 @@ const options: SchemaOptions = {
 
 @Schema(options)
 export class Cat extends Document {
-  @Prop({
-    require: true,
-  })
-  @IsString()
-  @IsNotEmpty()
-  id: string;
-
-  @Prop({
-    require: true,
-    nique: true,
-  })
   @IsEmail()
   @IsNotEmpty()
   email: string;
