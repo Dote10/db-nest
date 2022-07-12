@@ -8,14 +8,14 @@ import { JwtStrategy } from './jwt/jwt.strategy';
 
 @Module({
   imports: [
-    PassportModule.register({defaultStrategy:'jwt', session: false}),
+    PassportModule.register({ defaultStrategy: 'jwt', session: false }),
     JwtModule.register({
-        secret: 'secretKey',
-        signOptions: {expiresIn: '1y'},
+      secret: 'secretKey',
+      signOptions: { expiresIn: '1y' },
     }),
-  forwardRef(() => CatsModule)],
-  providers: [AuthService,JwtStrategy],
-  exports: [AuthService]
+    forwardRef(() => CatsModule),
+  ],
+  providers: [AuthService, JwtStrategy],
+  exports: [AuthService],
 })
 export class AuthModule {}
-

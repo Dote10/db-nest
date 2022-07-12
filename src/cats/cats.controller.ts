@@ -6,14 +6,14 @@ import {
   Param,
   ParseIntPipe,
   Post,
-  UseFilters,
 } from '@nestjs/common';
 import { ApiOperation } from '@nestjs/swagger';
-import { HttpExceptionFilter } from 'src/http-exception.filter';
+
 import { CatsService } from './cats.service';
 import { CatRequestDto } from './dto/cats.request.dto';
 import { AuthService } from '../auth/auth.service';
 import { LonginRequestDto } from 'src/auth/dto/auth.service';
+import { PositiveIntPipe } from 'src/pipes/positiveInt.pipe';
 
 @Controller('cats')
 export class CatsController {
@@ -29,7 +29,7 @@ export class CatsController {
   }
 
   @Get(':id')
-  getCurrentCat(@Param('id', ParseIntPipe) id) {
+  getCurrentCat(@Param('id', ParseIntPipe, PositiveIntPipe) id: number) {
     return id + typeof id;
   }
 
