@@ -14,7 +14,7 @@ import { LoggerMiddleware } from './logger.middleware';
     MongooseModule.forRoot(process.env.MONGODB_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-      autoIndex: true
+      autoIndex: true,
     }),
     CatsModule,
     AuthModule,

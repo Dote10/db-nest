@@ -3,12 +3,13 @@ import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { CatsModule } from '../cats/cats.module';
 import { AuthService } from './auth.service';
+import { jwtConstants } from './Constants';
 
 @Module({
   imports: [
     PassportModule.register({ defaultStrategy: 'jwt', session: false }),
     JwtModule.register({
-      secret: 'secretKey',
+      secret: jwtConstants.secret,
       signOptions: { expiresIn: '1y' },
     }),
     forwardRef(() => CatsModule),

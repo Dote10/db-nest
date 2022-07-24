@@ -5,7 +5,11 @@ import { Cat } from './cats.schema';
 
 @Injectable()
 export class CatRepository {
-  constructor(@InjectModel(Cat.name) private  catModel: Model<Cat>) {}
+  constructor(@InjectModel(Cat.name) private catModel: Model<Cat>) {}
+
+  async findAllCat() {
+    return this.catModel.find();
+  }
 
   async createCat({ email, name, password }) {
     const cat = await this.catModel.create({

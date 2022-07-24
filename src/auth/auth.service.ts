@@ -11,6 +11,10 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
+  async findAllCat() {
+    return this.catsRepository.findAllCat();
+  }
+
   async jwtLogIn(data: LoginRequestDto) {
     const { email, password } = data;
 

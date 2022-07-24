@@ -7,6 +7,7 @@ import {
   Post,
   Req,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { ApiOperation } from '@nestjs/swagger';
 import { AuthService } from 'src/auth/auth.service';
@@ -14,26 +15,28 @@ import { LoginRequestDto } from 'src/auth/dto/login.request';
 import { JwtAuthGuard } from 'src/auth/jwt/jwt.guard';
 import { CatsService } from './cats.service';
 import { CatRequestDto } from './dto/cats.request.dto';
-import { HttpException } from '@nestjs/common';
+import { Cat } from './entity/cats.entity';
+import { SuccessInterceptor } from 'src/success.interceptor';
 
 @Controller('cats')
+@UseInterceptors(SuccessInterceptor)
 export class CatsController {
   constructor(
     private readonly catsService: CatsService,
     private readonly authService: AuthService,
   ) {}
 
-
-  @Get()
-  async findAll(){
-     throw new HttpException('api is broken',401)
-  }
+  // @Get()
+  // @UseGuards(JwtAuthGuard)
+  // findAll(@Req() req) {
+  //   return this.catsService.findAllCat();
+  // }
 
   @ApiOperation({ summary: '현재 고양이 가져오기' })
   @UseGuards(JwtAuthGuard)
-  @Get('current')
+  @Get()
   getCurrentCat(@Req() req) {
-    return 'current cat';
+    return req.user;
   }
 
   @Get('email/:email')

@@ -14,11 +14,15 @@ export class CatsService {
     private readonly authService: AuthService,
   ) {}
 
+  async findAllCat() {
+    return this.catRepository.findAllCat();
+  }
+
   async signUp(catRequestDto: CatRequestDto) {
     const { email, name, password } = catRequestDto;
-    const isCatExist =  this.catRepository.existByEmail(catRequestDto.email);
+    const isCatExist = this.catRepository.existByEmail(catRequestDto.email);
 
-    return isCatExist
+    return isCatExist;
 
     if (isCatExist) {
       //throw new HttpException('해당하는 고양이는 이미 존재합니다.',403);
