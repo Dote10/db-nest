@@ -23,10 +23,9 @@ export class CatsController {
     private readonly authService: AuthService,
   ) {}
 
-
   @Get()
-  async findAll(){
-     throw new HttpException('api is broken',401)
+  async findAll() {
+    throw new HttpException('api is broken', 401);
   }
 
   @ApiOperation({ summary: '현재 고양이 가져오기' })

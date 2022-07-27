@@ -16,9 +16,7 @@ export class CatsService {
 
   async signUp(catRequestDto: CatRequestDto) {
     const { email, name, password } = catRequestDto;
-    const isCatExist =  this.catRepository.existByEmail(catRequestDto.email);
-
-    return isCatExist
+    const isCatExist = this.catRepository.existByEmail(catRequestDto.email);
 
     if (isCatExist) {
       //throw new HttpException('해당하는 고양이는 이미 존재합니다.',403);
