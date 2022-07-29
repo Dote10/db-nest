@@ -20,7 +20,6 @@ export class AuthService {
 
     //* 해당하는 email이 있는지
     const cat = await this.catsRepository.findCatByEmail(data.email);
-
     if (!cat) {
       throw new UnauthorizedException('이메일과 비밀번호를 확인해 주세요');
     }

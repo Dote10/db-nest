@@ -9,8 +9,10 @@ import { CatSchema } from './cats.schema';
 import { MulterError } from 'multer';
 import { MulterModule } from '@nestjs/platform-express';
 import { JwtStrategy } from 'src/auth/jwt/jwt.strategy';
+import { ConfigModule } from '@nestjs/config';
 @Module({
   imports: [
+    ConfigModule.forRoot(),
     MulterModule.register({
       dest: './upload',
     }),

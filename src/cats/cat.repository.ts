@@ -22,7 +22,9 @@ export class CatRepository {
   }
 
   async findCatByEmail(email: string): Promise<Cat | null> {
-    const cat = this.catModel.findOne({ email });
+    const cat = await this.catModel.findOne({ email });
+
+    console.log(cat);
 
     return cat;
   }
@@ -35,6 +37,7 @@ export class CatRepository {
 
   async existByEmail(email: string): Promise<boolean> {
     const id = await this.catModel.exists({ email });
+
     let result: boolean;
 
     if (id) result = true;

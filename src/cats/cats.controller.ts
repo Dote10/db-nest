@@ -6,17 +6,21 @@ import {
   Param,
   Post,
   Req,
+  UploadedFiles,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { ApiOperation } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { AuthService } from 'src/auth/auth.service';
 import { LoginRequestDto } from 'src/auth/dto/login.request';
 import { JwtAuthGuard } from 'src/auth/jwt/jwt.guard';
 import { CatsService } from './cats.service';
 import { CatRequestDto } from './dto/cats.request.dto';
-import { Cat } from './entity/cats.entity';
 import { SuccessInterceptor } from 'src/success.interceptor';
+import { CurrentUser } from 'src/common/decorators/user.decorator';
+import { Cat } from './cats.schema';
+import { ReadOnlyCatDto } from './dto/cat.dto';
+import { FilesInterceptor } from '@nestjs/platform-express';
 
 @Controller('cats')
 @UseInterceptors(SuccessInterceptor)
@@ -35,16 +39,21 @@ export class CatsController {
   @ApiOperation({ summary: '현재 고양이 가져오기' })
   @UseGuards(JwtAuthGuard)
   @Get()
-  getCurrentCat(@Req() req) {
-    return req.user;
+  getCurrentCat(@CurrentUser() cat: Cat) {
+    return cat.readOnlyData;
   }
 
-  @Get('email/:email')
-  getExistByEmail(@Param('email') email: string) {
-    return this.catsService.existByEmail(email);
-  }
-
-  @Post('sing')
+  @ApiResponse({
+    status: 500,
+    description: 'Server Error....',
+  })
+  @ApiResponse({
+    status: 200,
+    description: '성공!',
+    type: ReadOnlyCatDto,
+  })
+  @ApiOperation({ summary: '회원가입' })
+  @Post('sign')
   async signUp(@Body() catRequestDto: CatRequestDto) {
     return await this.catsService.signUp(catRequestDto);
   }
@@ -55,13 +64,17 @@ export class CatsController {
     return this.authService.jwtLogIn(data);
   }
 
+  @ApiOperation({ summary: '로그아웃' })
   @Post('logout')
   logOut() {
     return 'logout';
   }
 
-  @Post('upload/cats')
-  uploadCatImg() {
+  @ApiOperation({ summary: '고양이 이미지 업로드' })
+  @UseInterceptors(FilesInterceptor('image'))
+  @Post('upload')
+  uploadCatImg(@UploadedFiles() files: Array<Express.Multer.File>) {
+    console.log(files);
     return 'uploadImg';
   }
 }
