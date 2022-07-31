@@ -1,6 +1,6 @@
 import { forwardRef, Module } from '@nestjs/common';
-import { CatsController } from './cats.controller';
-import { CatsService } from './cats.service';
+import { CatsController } from './controller/cats.controller';
+import { CatsService } from './service/cats.service';
 import { Cat } from './entity/cats.entity';
 import { CatRepository } from './cat.repository';
 import { AuthModule } from 'src/auth/auth.module';

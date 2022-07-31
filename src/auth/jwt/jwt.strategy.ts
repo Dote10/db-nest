@@ -20,15 +20,9 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: Payload) {
-    console.log(payload);
-
     const cat = await this.catsRepository.findCatbyIdWithoutPassword(
       payload.sub,
     );
-
-    console.log('payeload:' + payload);
-    console.log('cat:' + cat);
-
     if (cat) {
       return cat;
     } else {

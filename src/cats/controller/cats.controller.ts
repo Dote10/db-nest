@@ -10,17 +10,18 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { AuthService } from 'src/auth/auth.service';
 import { LoginRequestDto } from 'src/auth/dto/login.request';
-import { JwtAuthGuard } from 'src/auth/jwt/jwt.guard';
-import { CatsService } from './cats.service';
-import { CatRequestDto } from './dto/cats.request.dto';
+import { CatsService } from '../service/cats.service';
+import { CatRequestDto } from '../dto/cats.request.dto';
 import { SuccessInterceptor } from 'src/success.interceptor';
 import { CurrentUser } from 'src/common/decorators/user.decorator';
-import { Cat } from './cats.schema';
-import { ReadOnlyCatDto } from './dto/cat.dto';
+import { Cat } from '../cats.schema';
+import { ReadOnlyCatDto } from '../dto/cat.dto';
 import { FilesInterceptor } from '@nestjs/platform-express';
+import { multerOptions } from '../../common/utils/multer.options';
+import { JwtAuthGuard } from 'src/auth/jwt/jwt.guard';
 
 @Controller('cats')
 @UseInterceptors(SuccessInterceptor)
@@ -30,13 +31,13 @@ export class CatsController {
     private readonly authService: AuthService,
   ) {}
 
-  // @Get()
-  // @UseGuards(JwtAuthGuard)
-  // findAll(@Req() req) {
-  //   return this.catsService.findAllCat();
-  // }
+  @Get('all')
+  findAll() {
+    return this.catsService.findAllCat();
+  }
 
   @ApiOperation({ summary: '현재 고양이 가져오기' })
+  @ApiBearerAuth('Bearer')
   @UseGuards(JwtAuthGuard)
   @Get()
   getCurrentCat(@CurrentUser() cat: Cat) {
@@ -71,10 +72,15 @@ export class CatsController {
   }
 
   @ApiOperation({ summary: '고양이 이미지 업로드' })
-  @UseInterceptors(FilesInterceptor('image'))
+  @ApiBearerAuth('Bearer')
+  @UseGuards(JwtAuthGuard)
+  @UseInterceptors(FilesInterceptor('image', 10, multerOptions('cats')))
   @Post('upload')
-  uploadCatImg(@UploadedFiles() files: Array<Express.Multer.File>) {
-    console.log(files);
-    return 'uploadImg';
+  uploadCatImg(
+    @UploadedFiles() files: Array<Express.Multer.File>,
+    @CurrentUser() cat: Cat,
+  ) {
+    console.log('into controller');
+    return this.catsService.uploadImg(cat, files);
   }
 }
