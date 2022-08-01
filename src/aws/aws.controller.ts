@@ -1,5 +1,8 @@
 import {
+  Body,
   Controller,
+  Get,
+  Param,
   Post,
   UploadedFile,
   UseInterceptors,
@@ -17,5 +20,10 @@ export class AwsController {
   async uploadFileToS3(@UploadedFile() file: Express.Multer.File) {
     console.log(file);
     return await this.awsService.uploadFileToS3('heart', file);
+  }
+
+  @Post('heart')
+  getImageUrl(@Body('key') key: string) {
+    return this.awsService.getAwsS3FileUrl(key);
   }
 }
