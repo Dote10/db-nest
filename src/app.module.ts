@@ -7,6 +7,7 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { CatsModule } from './cats/cats.module';
 import { LoggerMiddleware } from './logger.middleware';
+import { AwsModule } from './aws/aws.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { LoggerMiddleware } from './logger.middleware';
     }),
     CatsModule,
     AuthModule,
+    AwsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

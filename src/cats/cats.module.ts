@@ -3,12 +3,12 @@ import { CatsController } from './controller/cats.controller';
 import { CatsService } from './service/cats.service';
 import { Cat } from './entity/cats.entity';
 import { CatRepository } from './cat.repository';
-import { AuthModule } from 'src/auth/auth.module';
+//import { AuthModule } from 'src/auth/auth.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CatSchema } from './cats.schema';
 import { MulterError } from 'multer';
 import { MulterModule } from '@nestjs/platform-express';
-import { JwtStrategy } from 'src/auth/jwt/jwt.strategy';
+//import { JwtStrategy } from 'src/auth/jwt/jwt.strategy';
 import { ConfigModule } from '@nestjs/config';
 @Module({
   imports: [
@@ -17,10 +17,10 @@ import { ConfigModule } from '@nestjs/config';
       dest: './upload',
     }),
     MongooseModule.forFeature([{ name: Cat.name, schema: CatSchema }]),
-    forwardRef(() => AuthModule),
+    // forwardRef(() => AuthModule),
   ],
   exports: [CatsService, CatRepository],
   controllers: [CatsController],
-  providers: [CatsService, CatRepository, JwtStrategy],
+  providers: [CatsService, CatRepository],
 })
 export class CatsModule {}

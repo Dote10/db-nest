@@ -1,7 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 
 import * as bcrypt from 'bcrypt';
-import { AuthService } from 'src/auth/auth.service';
+//import { AuthService } from 'src/auth/auth.service';
 import { CatRepository } from '../cat.repository';
 import { Cat } from '../cats.schema';
 import { CatRequestDto } from '../dto/cats.request.dto';
@@ -9,8 +9,7 @@ import { CatRequestDto } from '../dto/cats.request.dto';
 @Injectable()
 export class CatsService {
   constructor(
-    private catRepository: CatRepository,
-    private readonly authService: AuthService,
+    private catRepository: CatRepository, // private readonly authService: AuthService,
   ) {}
 
   async findAllCat() {
